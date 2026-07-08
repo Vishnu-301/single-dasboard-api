@@ -1,5 +1,6 @@
 import express from "express";
-import pool from "./config/db.js"
+// import pool from "./config/db.js"
+// import admin from "./routes/adminRoute.js"
 import dotenv from "dotenv"
 
 dotenv.config();

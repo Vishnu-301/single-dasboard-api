@@ -4,7 +4,7 @@ import {
     deleteAdmin
 } from "../models/admin.model.js"
 
-class Admin {
+export class Admin {
     email;
     password;
 
@@ -21,26 +21,37 @@ class Admin {
     async registerAdmin(email, password) {
         this.email = email;
         this.password = password;
-        const { email, password } = req.body
         try {
-            if (email && password){
+            if (email && password) {
                 const result = await createAdmin(email, password);
+                return result;
             }
         } catch (error) {
             console.error(error)
             res
-            .status(500)
-            .json({
-                message: "internal server error"
-            })
+                .status(500)
+                .json({
+                    message: "internal server error"
+                });
         }
     }
 
-    async login(){
+    async login(email, password) {
+        this.email = email;
+        this.password = password;
         try {
-            
+            const findAdmin = findAdminByEmail(email);
+            if (findAdmin ){
+                const hashedPassword = await pool.query(`SELECT password FROM admins WHERE email= ${email}`);
+                const veriefiedPassword = bycrypt.compare(password, hashedPassword) ? true : false;
+                return veriefiedPassword;
+            }
         } catch (error) {
-            
+            console.error(error)
+            res.status(500)
+                .json({
+                    massege: "internal error or invalid inputs"
+                });
         }
     }
 
