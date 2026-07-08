@@ -1,0 +1,29 @@
+{
+  "name": "store-server",
+  "version": "1.0.0",
+  "description": "a signle dashboard api for electronics and home appliances for shopkeeper  not for customers",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vishnu-301/single-dasboard-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Vishnu-301/single-dasboard-api/issues"
+  },
+  "homepage": "https://github.com/Vishnu-301/single-dasboard-api#readme",
+  "dependencies": {
+    "axios": "^1.18.1",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
+  }
+}
