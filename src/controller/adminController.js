@@ -4,7 +4,9 @@ import {
     deleteAdmin
 } from "../models/admin.model.js"
 
-export class Admin {
+import bcrypt from "bcrypt";
+
+class Admin {
     email;
     password;
 
@@ -15,16 +17,20 @@ export class Admin {
 
     /**
      * register the admin
-     * @param {void} email 
-     * @param {void} password 
      */
-    async registerAdmin(email, password) {
-        this.email = email;
-        this.password = password;
+    async registerAdmin(req, res) {
+        const { email, password } = req.body;
         try {
             if (email && password) {
                 const result = await createAdmin(email, password);
-                return result;
+                res
+                    .status(201)
+                    .json({
+                        message: "Admin created successfully",
+                        data: result.rows[0]  // extract the actual record
+                    })
+            } else {
+                res.status(400).json({ message: "Email and password are required" });
             }
         } catch (error) {
             console.error(error)
@@ -36,23 +42,40 @@ export class Admin {
         }
     }
 
-    async login(email, password) {
-        this.email = email;
-        this.password = password;
+    /**
+     * login the admin
+     */
+    async login(req, res) {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
+
         try {
-            const findAdmin = findAdminByEmail(email);
-            if (findAdmin ){
-                const hashedPassword = await pool.query(`SELECT password FROM admins WHERE email= ${email}`);
-                const veriefiedPassword = bycrypt.compare(password, hashedPassword) ? true : false;
-                return veriefiedPassword;
+            const result = await findAdminByEmail(email);
+            const admin = result.rows[0]; // actual record, or undefined
+
+            if (!admin) {
+                return res.status(404).json({ message: "Admin not found" });
+            }
+
+            // comparing hashed password to user input password
+            const isMatch = await bcrypt.compare(password, admin.password);
+
+            if (isMatch) {
+                return res.status(200).json({
+                    message: "Admin login successfully",
+                    data: { id: admin.id, email: admin.email }
+                });
+            } else {
+                return res.status(401).json({ message: "Invalid password" });
             }
         } catch (error) {
-            console.error(error)
-            res.status(500)
-                .json({
-                    massege: "internal error or invalid inputs"
-                });
+            console.error(error);
+            res.status(500).json({ message: "Internal error or invalid inputs" });
         }
     }
-
 }
+
+export default Admin;

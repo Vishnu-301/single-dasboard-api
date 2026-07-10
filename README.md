@@ -58,3 +58,7 @@ not for customers
     "role": "admin"
   }
   ```
+
+  # UPDATES
+  - body parser errpr fixed {dependency downloaded and imported
+  - user can't still login (email and password still not being read)}

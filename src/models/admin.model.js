@@ -9,7 +9,7 @@ export function createAdmin(email, password) {
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    const query = `INSERT INTO admins (email, password) VALUES ($1, $2)`;
+    const query = `INSERT INTO admins (email, password) VALUES ($1, $2) RETURNING id, email, created_at`;
     const values = [email, hashedPassword];
     return pool.query(query, values);
 }
