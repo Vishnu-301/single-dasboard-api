@@ -60,5 +60,30 @@ not for customers
   ```
 
   # UPDATES
-  - body parser errpr fixed {dependency downloaded and imported
-  - user can't still login (email and password still not being read)}
+- all tasks completed
+
+# SETUP ON LOCAL MECHINE
+- Clone repo to ur mechine
+  ```bash
+  git clone https://github.com/Vishnu-301/single-dasboard-api.git
+  ```
+
+- open file on your machine and install dependencies
+  ```bash
+  cd single-dasboard-api
+  npm install
+  ```
+
+- create a databse in neon and add ur db url to .env file
+  ```bash
+  DATABASE_URL=ur_supabase_db_url
+  ```
+
+- run the server
+  ```bash
+  npm run dev
+  ```
+NOTE: THIS PROJECT WAS RAN LOCALLY AND BUUILT USING POSTGRESQL DATABASE WHIECH SHOULD BE COMATIBLE WITH NEON
+
+- properly test all endpoints and make sure they all work with your frontend before deploying
+

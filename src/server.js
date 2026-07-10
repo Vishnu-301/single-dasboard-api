@@ -3,6 +3,7 @@ import express from "express";
 import admin from "./routes/adminRoute.js"
 import dotenv from "dotenv"
 import bodyParser from "body-parser";
+import products from "./routes/productsRoute.js";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/admin',admin);
+app.use('/api/products',products);
 
 app.get("/api", async (req, res) => {
  res.json({

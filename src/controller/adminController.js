@@ -1,16 +1,11 @@
-import {
-    createAdmin,
-    findAdminByEmail,
-    deleteAdmin
-} from "../models/admin.model.js"
-
+import AdminModel from "../models/admin.model.js";
 import bcrypt from "bcrypt";
 
-class Admin {
+class AdminController {
     email;
     password;
 
-    __constructor(email, password) {
+    constructor(email, password) {
         this.email = email;
         this.password = password;
     }
@@ -22,7 +17,8 @@ class Admin {
         const { email, password } = req.body;
         try {
             if (email && password) {
-                const result = await createAdmin(email, password);
+                const adminInstance = new AdminModel(email, password);
+                const result = await adminInstance.createAdmin();
                 res
                     .status(201)
                     .json({
@@ -53,7 +49,7 @@ class Admin {
         }
 
         try {
-            const result = await findAdminByEmail(email);
+            const result = await AdminModel.findAdminByEmail(email);
             const admin = result.rows[0]; // actual record, or undefined
 
             if (!admin) {
@@ -78,4 +74,4 @@ class Admin {
     }
 }
 
-export default Admin;
+export default AdminController;
